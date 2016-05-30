@@ -24,7 +24,6 @@ double hausdorff_bruteforce(pMesh mesh1, pMesh mesh2){
   /* Compute rho(\Gamma_1,\Gamma_2)*/
   for(k=1;k<=mesh1->nt;k++){
     pt = &mesh1->tria[k];
-    if(pt->ref ==5){
     
     p0 = &mesh1->point[pt->v[0]];
     p1 = &mesh1->point[pt->v[1]];
@@ -40,7 +39,6 @@ double hausdorff_bruteforce(pMesh mesh1, pMesh mesh2){
     
     for(j=1;j<=mesh2->nt;j++){
       pt1 = &mesh2->tria[j];
-      if ( pt1->ref ==5 ) {
       p3 = &mesh2->point[pt1->v[0]];
       p4 = &mesh2->point[pt1->v[1]];
       p5 = &mesh2->point[pt1->v[2]];
@@ -57,8 +55,8 @@ double hausdorff_bruteforce(pMesh mesh1, pMesh mesh2){
       d = distpt_3d(p3,p4,p5,pmil,&proj);
       dmil = LS_MIN(dmil,d);
       
-         }
-       }
+         
+       
     }
     rho1 = LS_MAX(rho1,d0);
     rho1 = LS_MAX(rho1,d1);
