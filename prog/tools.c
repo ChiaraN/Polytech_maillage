@@ -20,43 +20,6 @@ double hausdorff_bruteforce(pMesh mesh1, pMesh mesh2){
   rho2 = 0.0;
   pmil = &mil;
   
-  nac1 = 0;
-  nac2 = 0;
-  
-  for(k=1; k<=mesh1->nt;k++){
-    pt = &mesh1->tria[k];
-    if ( pt->ref != mesh2->refb)
-    pt->ref = 0;
-  }
-  
-  for(k=1; k<=mesh2->nt;k++){
-    pt1 = &mesh2->tria[k];
-    if ( pt1->ref != mesh2->refb)
-    pt1->ref = 0;
-  }
-  
-  /* Set active triangles for mesh 1 (discard bounding box) */
-  for(k = 1; k<=mesh1->nt;k++){
-    pt = &mesh1->tria[k];
-    p0 = &mesh1->point[pt->v[0]];
-    p1 = &mesh1->point[pt->v[1]];
-    p2 = &mesh1->point[pt->v[2]];
-    
-    if((p0->c[0]<0.01)||(p0->c[0]>0.99)||(p0->c[1]<0.01)||(p0->c[1]>0.99)||(p0->c[2]<0.01)||(p0->c[2]>0.99)) continue;
-    pt->ref  =5;
-    nac1++;
-  }
-  
-  /* Set active triangles for mesh 2 (discarding Dirichlet) */
-  for(k = 1; k<=mesh2->nt;k++){
-    pt = &mesh2->tria[k];
-    if ( pt->ref != mesh2->refb) {
-      pt->ref  =5;
-      nac2++;
-    }
-  }
-
-  printf("Number of active triangles %d %d \n", nac1, nac2);
 
   /* Compute rho(\Gamma_1,\Gamma_2)*/
   for(k=1;k<=mesh1->nt;k++){
@@ -106,7 +69,6 @@ double hausdorff_bruteforce(pMesh mesh1, pMesh mesh2){
     /* Compute rho(\Gamma_1,\Gamma_2)*/
     for(k=1;k<=mesh2->nt;k++){
       pt = &mesh2->tria[k];
-      if(pt->ref ==5){
         
         p0 = &mesh2->point[pt->v[0]];
         p1 = &mesh2->point[pt->v[1]];
@@ -140,7 +102,6 @@ double hausdorff_bruteforce(pMesh mesh1, pMesh mesh2){
           
           
         }
-      }
       rho2 = LS_MAX(rho1,d0);
       rho2 = LS_MAX(rho1,d1);
       rho2 = LS_MAX(rho1,d2);
